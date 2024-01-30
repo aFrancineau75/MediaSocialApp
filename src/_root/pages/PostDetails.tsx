@@ -16,7 +16,7 @@ const PostDetails = () => {
   const { mutate: deletePost } = useDeletePost();
   
   const handleDeletePost = () =>{
-    deletePost({ postId: id, imageId: post?.imageId });
+    deletePost({ postId: id ||'', imageId: post?.imageId });
     navigate(-1);
   };
   const { data: userPosts, isPending: isUserPostLoading } = useGetUserPosts(

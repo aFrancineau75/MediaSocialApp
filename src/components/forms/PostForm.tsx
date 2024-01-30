@@ -10,7 +10,7 @@ import { PostValidation } from "@/lib/validation";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "@/context/AuthContext";
 import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesAndMutations";
-import { toast, useToast } from "../ui/use-toast";
+import { useToast } from "../ui/use-toast";
 import { Models } from "appwrite";
 
 type PostFormProps = {
