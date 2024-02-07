@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173   
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./vite.config.ts
+          action: rebuild  
+        - path: ./package-lock.json
+          action: rebuild
+        - path: .
+          target: /app
+          action: sync  
+    # environment:
+    #   - VITE_APPWRITE_PROJECT_ID='65a9272ab43d38b96257'
+    #   - VITE_APPWRITE_URL='https://cloud.appwrite.io/v1'
+    #   - VITE_APPWRITE_STORAGE_ID='65ad2bdc1bd365a0465a'
+    #   - VITE_APPWRITE_DATABASE_ID='65ad2c2b67583d48a115'
+    #   - VITE_APPWRITE_SAVES_COLLECTION_ID='65ad2e36e8b799b81561'
+    #   - VITE_APPWRITE_USER_COLLECTION_ID='65ad2db6b79be812578c'
+    #   - VITE_APPWRITE_POST_COLLECTION_ID='65ad2cb4cb4769c1917a'    
+    volumes:
+          # over here, we are mounting the current directory to the `/app` directory inside the container (which is the working directory of the container)
+          # syntax is `<path to the directory on host>:<path to the directory inside the container>`
+          # we're doing this because we want to reflect the changes made to the files in the current directory inside the container
+          - .:/app
+          # we also mount the node_modules directory inside the container at /app/node_modules. This is done to avoid installing the node_modules inside the container. 
+          # node_modules will be installed on the host machine and mounted inside the container
+          - /app/node_modules    
+
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+# services:
+#   server:
+#     build:
+#       context: .
+#     environment:
+#       NODE_ENV: production
+#     ports:
+#       - 5173:5173
+
+# The commented out section below is an example of how to define a PostgreSQL
+# database that your application can use. `depends_on` tells Docker Compose to
+# start the database before your application. The `db-data` volume persists the
+# database data between container restarts. The `db-password` secret is used
+# to set the database password. You must create `db/password.txt` and add
+# a password of your choosing to it before running `docker-compose up`.
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#   db:
+#     image: postgres
+#     restart: always
+#     user: postgres
+#     secrets:
+#       - db-password
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#     environment:
+#       - POSTGRES_DB=example
+#       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+#     expose:
+#       - 5432
+#     healthcheck:
+#       test: [ "CMD", "pg_isready" ]
+#       interval: 10s
+#       timeout: 5s
+#       retries: 5
+# volumes:
+#   db-data:
+# secrets:
+#   db-password:
+#     file: db/password.txt
+

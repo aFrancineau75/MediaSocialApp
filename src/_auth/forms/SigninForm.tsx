@@ -53,7 +53,7 @@ const SignInForm = () => {
       navigate('/')
     } else {
       console.log("isLoggedIn false")
-      return toast({ title: "Sign up failed. Please try again."})
+      return toast({ title: "Sign in failed. Please try again."})
     }
   }
   return (
